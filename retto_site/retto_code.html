@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Retto | Infraestrutura Inteligente de Marketing</title>
+    
+    <!-- Frameworks & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --color-accent: #66F624;
+            --color-dark: #111827;
+            --color-gray: #6B7280;
+            --color-border: #E5E7EB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #FFFFFF;
+            color: var(--color-dark);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .font-ibm { font-family: 'IBM Plex Sans', sans-serif; }
+        .enterprise-grid { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+
+        /* Custom UI Components */
+        .sb-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            padding: 0.625rem 1.25rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+        .sb-btn-primary {
+            background-color: var(--color-accent);
+            color: #000;
+            border: 1px solid var(--color-accent);
+        }
+        .sb-btn-primary:hover { background-color: #55d61e; }
+        .sb-btn-dark {
+            background-color: #1e1e1e;
+            color: #fff;
+            border: 1px solid #2e2e2e;
+        }
+        .text-neon-glow { text-shadow: 0 0 8px rgba(102, 246, 36, 0.5); }
+        
+        /* Navigation & SPA Logic */
+        .view-section { display: none; }
+        .view-section.active { display: block; }
+
+        header.scrolled {
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--color-border);
+            padding: 12px 0;
+        }
+
+        /* Mega Menu Emulation */
+        #mega-menu {
+            opacity: 0;
+            visibility: hidden;
+            transform: translateX(-50%) translateY(10px);
+            transition: all 0.3s ease;
+        }
+        .group:hover #mega-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Grayscale hover effects */
+        .img-grayscale { filter: grayscale(100%); transition: filter 0.5s ease; }
+        .img-grayscale:hover { filter: grayscale(0%); }
+
+        /* Dashboard Animation */
+        @keyframes grow { from { height: 0; } to { height: var(--h); } }
+        .bar-anim { animation: grow 1.5s ease-out forwards; }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-[100] py-5 transition-all duration-300">
+        <div class="enterprise-grid flex items-center justify-between relative">
+            <button onclick="showView('landing')" class="flex items-center">
+                <img src="Logo_sem_TM_black.svg" alt="Retto" class="h-8">
+            </button>
+            
+            <nav class="hidden lg:flex items-center gap-8">
+                <div class="group relative py-4">
+                    <button class="text-sm font-medium text-[#6B7280] hover:text-[#111827] flex items-center gap-1">
+                        Soluções <i data-lucide="chevron-down" class="w-3 h-3 transition-transform group-hover:rotate-180"></i>
+                    </button>
+                    <!-- Mega Menu Content -->
+                    <div id="mega-menu" class="absolute top-full left-1/2 w-[1000px] pt-4 z-50">
+                        <div class="bg-white border border-[#E5E7EB] rounded-[14px] shadow-2xl p-12 grid grid-cols-3 gap-12 text-left">
+                            <div class="space-y-6">
+                                <h4 class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Por Perfil</h4>
+                                <div class="space-y-2">
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="rocket" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Startups</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="trending-up" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Empresas em crescimento</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="building-2" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Enterprise</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <h4 class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Por Objetivo</h4>
+                                <div class="space-y-2">
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="user-check" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Gerar Leads</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="bar-chart-3" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Aumentar ROI</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="target" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Posicionamento</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="space-y-6">
+                                <h4 class="text-[12px] font-bold text-gray-400 uppercase tracking-widest">Soluções</h4>
+                                <div class="space-y-2">
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="arrow-down-circle" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Inbound Marketing</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="zap" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Tráfego e Performance</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="share-2" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Mídias Sociais</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="code" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Criação e Desenvolvimento</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="palette" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">Identidade Visual</span>
+                                    </a>
+                                    <a href="#" class="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg group/item">
+                                        <i data-lucide="search" class="w-4 h-4 text-gray-400 group-hover/item:text-[#66F624]"></i>
+                                        <span class="text-sm font-semibold">SEO</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button onclick="showView('landing')" class="text-sm font-medium text-[#6B7280] hover:text-[#111827]">Clientes</button>
+                <button onclick="showView('insights')" class="text-sm font-medium text-[#6B7280] hover:text-[#111827]">Insights</button>
+                <button onclick="showView('landing')" class="text-sm font-medium text-[#6B7280] hover:text-[#111827]">Empresa</button>
+            </nav>
+
+            <div class="flex items-center gap-4">
+                <button onclick="showView('form')" class="sb-btn sb-btn-primary hidden sm:inline-flex">Agendar diagnóstico</button>
+                <button class="lg:hidden p-2"><i data-lucide="menu"></i></button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        
+        <!-- VIEW: LANDING -->
+        <section id="view-landing" class="view-section active">
+            <!-- Hero -->
+            <div class="pt-32 pb-20 lg:pt-56 lg:pb-32 bg-white overflow-visible">
+                <div class="enterprise-grid grid lg:grid-cols-2 gap-16 items-center overflow-visible">
+                    <div class="space-y-12">
+                        <div class="space-y-6">
+                            <h1 class="text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1] font-ibm">A assessoria de marketing para eficiência em vendas.</h1>
+                            <p class="text-xl text-[#6B7280] leading-relaxed max-w-xl font-light">Substitua processos manuais por automações de alta performance. A Retto fornece a camada técnica necessária para escalar.</p>
+                        </div>
+                        <div class="flex flex-col sm:flex-row gap-4 max-w-md">
+                            <input type="email" placeholder="E-mail corporativo" class="flex-grow px-6 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                            <button onclick="showView('form')" class="sb-btn sb-btn-primary px-8">Começar <i data-lucide="arrow-right" class="ml-2 w-4 h-4"></i></button>
+                        </div>
+                    </div>
+                    <!-- Hero Image -->
+                    <div class="hidden lg:block flex justify-end overflow-visible -translate-y-[60px]">
+                        <img src="Backgroud_hero_page_.png" alt="Infraestrutura inteligente de marketing - dashboards e análise de dados" class="h-[700px] w-auto max-w-none rounded-2xl object-contain">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solutions Grid -->
+            <div class="py-32 bg-white border-t border-[#E5E7EB]">
+                <div class="enterprise-grid text-center mb-16">
+                    <h2 class="text-3xl lg:text-5xl font-bold tracking-tight font-ibm">Soluções para todas as etapas.</h2>
+                </div>
+                <div class="enterprise-grid grid md:grid-cols-3 border border-[#E5E7EB]">
+                    <div class="group border-r last:border-r-0 border-[#E5E7EB]">
+                        <div class="aspect-square overflow-hidden"><img src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=600" class="w-full h-full object-cover img-grayscale group-hover:scale-105"></div>
+                        <div class="p-10 space-y-6">
+                            <h3 class="text-3xl font-bold font-ibm">Startups</h3>
+                            <p class="text-[#6B7280] font-light">Resultados assertivos projetados para ajudar a expandir seu novo negócio.</p>
+                            <button onclick="showView('form')" class="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#66F624] transition-colors">Saiba Mais <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                        </div>
+                    </div>
+                    <div class="group border-r last:border-r-0 border-[#E5E7EB]">
+                        <div class="aspect-square overflow-hidden"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600" class="w-full h-full object-cover img-grayscale group-hover:scale-105"></div>
+                        <div class="p-10 space-y-6">
+                            <h3 class="text-3xl font-bold font-ibm">Growth</h3>
+                            <p class="text-[#6B7280] font-light">Geração de leads qualificados e expansão de escala inteligente.</p>
+                            <button onclick="showView('form')" class="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#66F624] transition-colors">Saiba Mais <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                        </div>
+                    </div>
+                    <div class="group border-r last:border-r-0 border-[#E5E7EB]">
+                        <div class="aspect-square overflow-hidden"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=600" class="w-full h-full object-cover img-grayscale group-hover:scale-105"></div>
+                        <div class="p-10 space-y-6">
+                            <h3 class="text-3xl font-bold font-ibm">Enterprise</h3>
+                            <p class="text-[#6B7280] font-light">Simplifique processos com automação que facilita no cotidiano corporativo.</p>
+                            <button onclick="showView('form')" class="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2 hover:text-[#66F624] transition-colors">Saiba Mais <i data-lucide="arrow-right" class="w-3 h-3"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Steps -->
+            <div class="py-32 bg-[#F9FAFB]">
+                <div class="enterprise-grid">
+                    <div class="mb-20">
+                        <h2 class="text-4xl font-bold font-ibm mb-4">Como Funciona</h2>
+                        <div class="w-20 h-1 bg-[#66F624]"></div>
+                    </div>
+                    <div class="grid lg:grid-cols-3 gap-16">
+                        <div class="group space-y-6">
+                            <div class="text-7xl font-black text-gray-200 group-hover:text-[#66F624]/20 font-ibm">01</div>
+                            <h3 class="text-2xl font-bold font-ibm">Auditoria</h3>
+                            <p class="text-[#6B7280] font-light leading-relaxed">Analisamos sua stack de dados atual e métricas para identificar gargalos.</p>
+                        </div>
+                        <div class="group space-y-6">
+                            <div class="text-7xl font-black text-gray-200 group-hover:text-[#66F624]/20 font-ibm">02</div>
+                            <h3 class="text-2xl font-bold font-ibm">Integração</h3>
+                            <p class="text-[#6B7280] font-light leading-relaxed">Implementação da nossa camada de IA em seus canais de marketing.</p>
+                        </div>
+                        <div class="group space-y-6">
+                            <div class="text-7xl font-black text-gray-200 group-hover:text-[#66F624]/20 font-ibm">03</div>
+                            <h3 class="text-2xl font-bold font-ibm">Escala</h3>
+                            <p class="text-[#6B7280] font-light leading-relaxed">Otimização autônoma de lances com base em modelagem preditiva.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final CTA -->
+            <div class="py-32 bg-[#111827] text-white text-center">
+                <div class="enterprise-grid max-w-4xl space-y-12">
+                    <h2 class="text-5xl font-bold font-ibm">Veja o que a Retto pode fazer por você.</h2>
+                    <p class="text-xl text-gray-400 font-light">Substitua métodos legados pela nossa infraestrutura inteligente.</p>
+                    <button onclick="showView('form')" class="sb-btn sb-btn-primary px-16 py-8 text-lg uppercase tracking-widest font-bold">Falar com um especialista</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: FORM -->
+        <section id="view-form" class="view-section py-20 bg-[#F9FAFB] min-h-screen">
+            <div class="enterprise-grid max-w-3xl">
+                <button onclick="showView('landing')" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#6B7280] mb-12 hover:text-black">
+                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Voltar
+                </button>
+                <div class="text-center mb-16 space-y-4">
+                    <h1 class="text-5xl font-bold font-ibm">Diagnóstico Técnico</h1>
+                    <p class="text-gray-500 font-light">Inicie a auditoria técnica da sua operação.</p>
+                </div>
+                <div class="bg-white border border-[#E5E7EB] p-12 rounded-2xl shadow-sm">
+                    <form onsubmit="handleForm(event)" class="space-y-8">
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase text-gray-400">Nome*</label>
+                                <input required type="text" placeholder="Seu nome" class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase text-gray-400">E-mail corporativo*</label>
+                                <input required type="email" placeholder="exemplo@empresa.com" class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase text-gray-400">Telefone*</label>
+                                <input required type="tel" id="telefone" placeholder="(00) 00000-0000" class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase text-gray-400">Empresa*</label>
+                                <input required type="text" placeholder="Nome da organização" class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase text-gray-400">Cargo*</label>
+                                <input required type="text" placeholder="Ex: Diretor de Marketing" class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase text-gray-400">Segmento da empresa*</label>
+                                <select required class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                                    <option value="">Selecione o segmento</option>
+                                    <option value="tecnologia">Tecnologia</option>
+                                    <option value="ecommerce">E-commerce</option>
+                                    <option value="saude">Saúde</option>
+                                    <option value="educacao">Educação</option>
+                                    <option value="financeiro">Financeiro</option>
+                                    <option value="imobiliario">Imobiliário</option>
+                                    <option value="varejo">Varejo</option>
+                                    <option value="servicos">Serviços</option>
+                                    <option value="outros">Outros</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold uppercase text-gray-400">Orçamento Mídia*</label>
+                            <select required class="w-full px-5 py-4 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl outline-none focus:border-[#66F624]">
+                                <option value="">Selecione o orçamento</option>
+                                <option value="ate-10k">Até R$ 10.000/mês</option>
+                                <option value="10k-50k">R$ 10.000 - R$ 50.000/mês</option>
+                                <option value="50k-100k">R$ 50.000 - R$ 100.000/mês</option>
+                                <option value="100k-500k">R$ 100.000 - R$ 500.000/mês</option>
+                                <option value="acima-500k">Acima de R$ 500.000/mês</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="sb-btn sb-btn-primary w-full py-5 text-base uppercase font-bold tracking-widest">Solicitar Agendamento</button>
+                        <div class="flex items-center gap-2 text-sm text-gray-500">
+                            <i data-lucide="check" class="w-4 h-4 text-[#66F624]"></i>
+                            <span>Dados protegidos por LGPD</span>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- VIEW: INSIGHTS -->
+        <section id="view-insights" class="view-section py-20 bg-white">
+            <div class="enterprise-grid">
+                <button onclick="showView('landing')" class="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-[#6B7280] mb-12">
+                    <i data-lucide="arrow-left" class="w-3 h-3"></i> Voltar
+                </button>
+                <h1 class="text-5xl font-bold font-ibm mb-20">Insights de Mercado</h1>
+                <div class="grid lg:grid-cols-3 gap-12">
+                    <div class="group cursor-pointer">
+                        <div class="aspect-video bg-gray-100 mb-6 overflow-hidden"><img src="https://images.unsplash.com/photo-1454165833767-027ffea9e787?w=600" class="w-full h-full object-cover img-grayscale group-hover:scale-105"></div>
+                        <span class="text-[10px] font-bold text-[#66F624] uppercase">Tendências</span>
+                        <h3 class="text-2xl font-bold font-ibm mt-2 group-hover:text-[#66F624]">Marketing para 2026</h3>
+                        <p class="text-gray-500 mt-4 font-light">Como a hiper-automação mudará a próxima década.</p>
+                    </div>
+                    <div class="group cursor-pointer">
+                        <div class="aspect-video bg-gray-100 mb-6 overflow-hidden"><img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600" class="w-full h-full object-cover img-grayscale group-hover:scale-105"></div>
+                        <span class="text-[10px] font-bold text-[#66F624] uppercase">Tecnologia</span>
+                        <h3 class="text-2xl font-bold font-ibm mt-2 group-hover:text-[#66F624]">O fim do manual</h3>
+                        <p class="text-gray-500 mt-4 font-light">Por que processos legados estão custando caro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="py-20 bg-white border-t border-[#E5E7EB]">
+        <div class="enterprise-grid">
+            <div class="grid md:grid-cols-4 gap-16 mb-16">
+                <div class="col-span-1">
+                    <img src="Logo_sem_TM_black.svg" alt="Retto" class="h-8 mb-8">
+                    <p class="text-sm text-[#6B7280] leading-relaxed">A Assessoria de Marketing Inteligente para empresas que exigem escala com previsibilidade.</p>
+                </div>
+                <div>
+                    <h5 class="text-[10px] font-bold tracking-widest uppercase mb-8">Soluções</h5>
+                    <ul class="space-y-4 text-sm text-[#6B7280]">
+                        <li><a href="#" class="hover:text-[#66F624]">Inbound Marketing</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Tráfego e Performance</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Mídias Sociais</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Criação e Desenvolvimento</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Identidade Visual</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">SEO</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-[10px] font-bold tracking-widest uppercase mb-8">Institucional</h5>
+                    <ul class="space-y-4 text-sm text-[#6B7280]">
+                        <li><a href="#" class="hover:text-[#66F624]">Metodologia</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Nossos Cases</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Carreiras</a></li>
+                        <li><a href="#" class="hover:text-[#66F624]">Política de Dados</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-[10px] font-bold tracking-widest uppercase mb-8">Conteúdos Exclusivos sobre IA</h5>
+                    <p class="text-sm text-[#6B7280] mb-6 leading-relaxed">Assine nossa newsletter técnica para insights semanais de infraestrutura.</p>
+                    <form class="space-y-3" onsubmit="handleNewsletter(event)">
+                        <input type="email" placeholder="E-mail" required class="w-full px-4 py-3 bg-[#F9FAFB] border border-[#E5E7EB] rounded-lg outline-none focus:border-[#66F624] text-sm">
+                        <button type="submit" class="sb-btn sb-btn-primary w-full text-sm">Inscrever-se</button>
+                    </form>
+                </div>
+            </div>
+            <div class="pt-12 border-t border-[#E5E7EB] flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-gray-400 uppercase tracking-widest">
+                <p>© 2026 RETTO ASSESSORIA DE MARKETING</p>
+                <div class="flex gap-8">
+                    <a href="#" class="hover:text-[#66F624]">LinkedIn</a>
+                    <a href="#" class="hover:text-[#66F624]">Instagram</a>
+                    <a href="#" class="hover:text-[#66F624]">YouTube</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- LOGIC -->
+    <script type="module">
+        import { GoogleGenAI } from "https://esm.sh/@google/genai@^1.39.0";
+
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // SPA Navigation
+        window.showView = function(viewId) {
+            document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active'));
+            document.getElementById(`view-${viewId}`).classList.add('active');
+            window.scrollTo(0,0);
+            // Recriar ícones após mudança de view
+            setTimeout(() => lucide.createIcons(), 100);
+        }
+
+        // Header Scroll Effect
+        window.addEventListener('scroll', () => {
+            const header = document.getElementById('main-header');
+            if (window.scrollY > 20) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        });
+
+        // Form Submission
+        window.handleForm = function(e) {
+            e.preventDefault();
+            alert('Recebemos sua solicitação. Entraremos em contato em até 24h.');
+            showView('landing');
+        }
+
+        // Newsletter Submission
+        window.handleNewsletter = function(e) {
+            e.preventDefault();
+            alert('Obrigado por se inscrever! Você receberá nossos insights semanais.');
+            e.target.reset();
+        }
+
+        // Máscara de telefone
+        const telefoneInput = document.getElementById('telefone');
+        if (telefoneInput) {
+            telefoneInput.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.length <= 11) {
+                    if (value.length <= 10) {
+                        value = value.replace(/^(\d{2})(\d{4})(\d{0,4}).*/, '($1) $2-$3');
+                    } else {
+                        value = value.replace(/^(\d{2})(\d{5})(\d{0,4}).*/, '($1) $2-$3');
+                    }
+                    e.target.value = value;
+                }
+            });
+        }
+
+        /* 
+           Se você quiser adicionar o diagnóstico por IA Gemini neste arquivo, 
+           basta implementar a chamada à função geminiService aqui usando 
+           a biblioteca importada no topo do script.
+        */
+    </script>
+</body>
+</html>
