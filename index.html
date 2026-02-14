@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Retto | Infraestrutura Inteligente de Marketing</title>
+    <title>Retto | Assessoria de Marketing Inteligente</title>
 
     <!-- Frameworks & Fonts -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -126,6 +126,15 @@
 
         .bar-anim {
             animation: grow 1.5s ease-out forwards;
+        }
+
+        /* Grid Pattern */
+        .bg-grid-pattern {
+            background-image: linear-gradient(to right, #374151 1px, transparent 1px),
+                linear-gradient(to bottom, #374151 1px, transparent 1px);
+            background-size: 40px 40px;
+            mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
         }
     </style>
 </head>
@@ -266,8 +275,8 @@
                 <div class="enterprise-grid grid lg:grid-cols-2 gap-16 items-center overflow-visible">
                     <div class="space-y-12">
                         <div class="space-y-6">
-                            <h1 class="text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1] font-ibm">A
-                                assessoria de marketing para eficiência em vendas.</h1>
+                            <h1 class="text-5xl lg:text-[64px] font-bold tracking-tight leading-[1.1] font-ibm">
+                                Assessoria de Marketing para eficiência em vendas.</h1>
                             <p class="text-xl text-[#6B7280] leading-relaxed max-w-xl font-light">Substitua processos
                                 manuais por automações de alta performance. A Retto fornece a camada técnica necessária
                                 para escalar.</p>
@@ -371,14 +380,47 @@
             </div>
 
             <!-- Final CTA -->
-            <div class="py-32 bg-[#111827] text-white text-center">
-                <div class="enterprise-grid max-w-4xl space-y-12">
-                    <h2 class="text-5xl font-bold font-ibm">Veja o que a Retto pode fazer por você.</h2>
-                    <p class="text-xl text-gray-400 font-light">Substitua métodos legados pela nossa infraestrutura
-                        inteligente.</p>
-                    <button onclick="showView('form')"
-                        class="sb-btn sb-btn-primary px-16 py-8 text-lg uppercase tracking-widest font-bold">Falar com
-                        um especialista</button>
+            <!-- Final CTA -->
+            <div class="py-20 lg:py-32 bg-white">
+                <div class="enterprise-grid">
+                    <div
+                        class="relative overflow-hidden rounded-[2.5rem] bg-[#0f1115] border border-[#1f2937] p-12 lg:p-24 text-center isolate shadow-2xl">
+                        <!-- Background Effects -->
+                        <div class="absolute inset-0 bg-grid-pattern opacity-[0.07] pointer-events-none"></div>
+                        <div
+                            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#66F624] rounded-full blur-[140px] opacity-[0.06] -z-10 pointer-events-none">
+                        </div>
+
+                        <!-- Content -->
+                        <div class="relative z-10 max-w-4xl mx-auto space-y-10">
+                            <span
+                                class="inline-flex px-4 py-1.5 rounded-full border border-[#66F624]/20 bg-[#66F624]/5 text-[#66F624] text-[10px] font-bold uppercase tracking-[0.2em] mb-4 backdrop-blur-sm">
+                                Infraestrutura Pronta
+                            </span>
+                            <h2
+                                class="text-4xl lg:text-[56px] font-bold font-ibm text-white leading-[1.1] tracking-tight">
+                                Menos achismo, <span
+                                    class="text-transparent bg-clip-text bg-gradient-to-r from-white to-[#6BF72B]">mais
+                                    decisões
+                                    baseadas em dados.</span>
+                            </h2>
+                            <p class="text-lg lg:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto">
+                                Nós te ajudamos a crescer com consistência e a evoluir seus resultados com confiança.
+                            </p>
+                            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 pt-6">
+                                <button onclick="showView('form')"
+                                    class="group sb-btn sb-btn-primary px-10 py-5 text-sm uppercase tracking-widest hover:shadow-[0_0_30px_rgba(102,246,36,0.3)] transition-all duration-500 relative overflow-hidden">
+                                    <span class="relative z-10 flex items-center gap-2">Iniciar Diagnóstico <i
+                                            data-lucide="arrow-right"
+                                            class="w-4 h-4 transition-transform group-hover:translate-x-1"></i></span>
+                                </button>
+                                <a href="#"
+                                    class="px-8 py-4 text-xs font-bold text-gray-400 hover:text-white transition-colors uppercase tracking-widest border border-transparent hover:border-gray-800 rounded-lg">
+                                    Ver nossos cases
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -505,7 +547,7 @@
             <div class="grid md:grid-cols-4 gap-16 mb-16">
                 <div class="col-span-1">
                     <img src="images/Logo_sem_TM_black.svg" alt="Retto" class="h-8 mb-8">
-                    <p class="text-sm text-[#6B7280] leading-relaxed">A Assessoria de Marketing Inteligente para
+                    <p class="text-sm text-[#6B7280] leading-relaxed">Assessoria de Marketing Inteligente para
                         empresas que exigem escala com previsibilidade.</p>
                 </div>
                 <div>
@@ -543,9 +585,14 @@
                 class="pt-12 border-t border-[#E5E7EB] flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] text-gray-400 uppercase tracking-widest">
                 <p>© 2026 RETTO ASSESSORIA DE MARKETING</p>
                 <div class="flex gap-8">
-                    <a href="#" class="hover:text-[#66F624]">LinkedIn</a>
-                    <a href="#" class="hover:text-[#66F624]">Instagram</a>
-                    <a href="#" class="hover:text-[#66F624]">YouTube</a>
+                    <a href="https://www.linkedin.com/company/rettohq/about/?viewAsMember=true" target="_blank"
+                        class="hover:text-[#66F624] transition-colors"><i data-lucide="linkedin"
+                            class="w-5 h-5"></i></a>
+                    <a href="https://www.instagram.com/rettohq/" target="_blank"
+                        class="hover:text-[#66F624] transition-colors"><i data-lucide="instagram"
+                            class="w-5 h-5"></i></a>
+                    <a href="#" class="hover:text-[#66F624] transition-colors"><i data-lucide="youtube"
+                            class="w-5 h-5"></i></a>
                 </div>
             </div>
         </div>
